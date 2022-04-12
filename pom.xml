@@ -11,10 +11,10 @@
 
   <modules>
     <module>customer</module>
+    <module>fraudcheck</module>
   </modules>
 
   <name>exam-registration-microservice</name>
-  <!-- FIXME change it to the project's website -->
   <url>https://www.dmitrikonnov.io</url>
 
   <properties>
