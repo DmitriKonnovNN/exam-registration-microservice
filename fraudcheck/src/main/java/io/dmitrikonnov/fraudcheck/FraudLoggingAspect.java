@@ -1,22 +1,15 @@
-package io.dmitrikonnov.customer;
+package io.dmitrikonnov.fraudcheck;
 
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
-@Component
-@Aspect
-@Slf4j
-public class CustomerLoggingAspect {
+public class FraudLoggingAspect {
     Logger logger = LoggerFactory.getLogger(this.getClass());
 
-
-    @Pointcut("within(io.dmitrikonnov.customer.CustomerController)")
+    @Pointcut("within(io.dmitrikonnov.fraudcheck.FraudCheckController)")
     protected void inControllerPoint(){}
 
     @Pointcut("execution(* *(*))")
@@ -28,7 +21,7 @@ public class CustomerLoggingAspect {
 
     @Before("@annotation(io.dmitrikonnov.customer.annotation.Logged) && args(customerRegistrationRequest) && anyExecutionPointWithArgs() && inControllerPoint()")
     public void logRegistrationRequest(CustomerRegistrationRequest customerRegistrationRequest) {
-        logger.info(String.format(Messages.REGISTRATION_REQUEST_ARGS,
+        logger.info(String.format(Messages.FraudCheckMsg,
                 customerRegistrationRequest.getFirstName(),
                 customerRegistrationRequest.getLastName(),
                 customerRegistrationRequest.getEmail(),

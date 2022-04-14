@@ -12,8 +12,10 @@ import javax.persistence.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Table (name = "customer",
+        indexes = @Index(columnList = "email", name = "customer_email_nbr_idx"),
+        uniqueConstraints = @UniqueConstraint(columnNames = "email", name = "customer_email_uc"))
 public class Customer {
-
 
     @Id
     @Column(name = "id", unique = true, nullable = false, updatable = false)
@@ -24,8 +26,16 @@ public class Customer {
             generator = "customer_sequence")
     private Long id;
 
+
+    @Column (nullable = false)
     private String firstName;
+
+    @Column (nullable = false)
     private String lastName;
-    private String password;
+
+    @Column (nullable = false)
     private String email;
+    /*@Column (nullable = false)
+    private String phoneNumber;*/
+
 }

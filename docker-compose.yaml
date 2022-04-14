@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_USER: dmitri
       POSTGRES_PASSWORD: P@ssw0rd
-      POSTGRES_DB: customers
+      POSTGRES_MULTIPLE_DATABASES: customers, fraud
       PGDATA: /data/postgres
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     volumes:

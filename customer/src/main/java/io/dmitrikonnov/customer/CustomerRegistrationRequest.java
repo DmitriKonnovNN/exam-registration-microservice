@@ -7,6 +7,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.ToString;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Getter
@@ -16,22 +19,20 @@ import java.util.Date;
 public class CustomerRegistrationRequest {
 
 
+    @NotBlank
     private final String firstName;
-    private final String lastName;
-    private final String email;
-    private final String password;
-    private Date date;
+    @NotBlank private final String lastName;
+    @Email @NotBlank private final String email;
+    private final LocalDateTime createdAt;
 
     @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
     public CustomerRegistrationRequest (@JsonProperty("firstName")String firstName,
                                              @JsonProperty("lastName") String lastName,
-                                             @JsonProperty("email") String email,
-                                             @JsonProperty("password") String password) {
+                                             @JsonProperty("email") String email) {
         this(firstName,
                 lastName,
                 email,
-                password,
-                new Date (System.currentTimeMillis()));
+                LocalDateTime.now());
     }
 
 }
