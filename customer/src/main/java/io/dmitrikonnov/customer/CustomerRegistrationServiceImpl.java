@@ -1,8 +1,9 @@
 package io.dmitrikonnov.customer;
 
-import io.dmitrikonnov.customer.annotation.Logged;
+import io.dmitrikonnov.annotation.Logged;
+import io.dmitrikonnov.clients.fraud.FraudCheckClient;
+import io.dmitrikonnov.clients.fraud.FraudCheckResponse;
 import lombok.AllArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -12,10 +13,11 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 
     CustomerRepo customerRepo;
     RestTemplate restTemplate;
+    FraudCheckClient fraudCheckClient;
 
-    protected Boolean checkIfFraud (Long customerId){
-        return restTemplate.getForEntity("http:localhost:FRAUDCHECK/api/v1/fraud-check/{customerId}",Boolean.class,customerId)
-                .getBody();
+    protected FraudCheckResponse checkIfFraud (Long customerId){
+
+        return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
     }
 
     @Logged
@@ -26,8 +28,8 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
                 .email(registrationRequest.getEmail()).build();
         customerRepo.saveAndFlush(customer);
 
-        final Boolean isFraudster = checkIfFraud(customer.getId());
-        if (isFraudster) {
+        final FraudCheckResponse isFraudster = checkIfFraud(customer.getId());
+        if (isFraudster.getIsFraudster()) {
             throw new IllegalStateException("fraudster");
         }
         //TODO: send notifications

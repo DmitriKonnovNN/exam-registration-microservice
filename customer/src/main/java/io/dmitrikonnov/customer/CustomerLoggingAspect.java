@@ -26,7 +26,8 @@ public class CustomerLoggingAspect {
     protected void registerCustomerPoint(){}
 
 
-    @Before("@annotation(io.dmitrikonnov.customer.annotation.Logged) && args(customerRegistrationRequest) && anyExecutionPointWithArgs() && inControllerPoint()")
+
+    @Before("@annotation(annotation.Logged) && args(customerRegistrationRequest) && anyExecutionPointWithArgs() && inControllerPoint()")
     public void logRegistrationRequest(CustomerRegistrationRequest customerRegistrationRequest) {
         logger.info(String.format(Messages.REGISTRATION_REQUEST_ARGS,
                 customerRegistrationRequest.getFirstName(),
@@ -37,7 +38,7 @@ public class CustomerLoggingAspect {
         logger.info("Request: {}", customerRegistrationRequest);
     }
 
-    @Around("@annotation(io.dmitrikonnov.customer.annotation.Logged)")
+    @Around("@annotation(annotation.Logged)")
     public void logCustomerPersistence(){
 
     }

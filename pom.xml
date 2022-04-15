@@ -13,6 +13,8 @@
     <module>customer</module>
     <module>fraudcheck</module>
     <module>eureka-server</module>
+    <module>clients</module>
+    <module>annotations</module>
   </modules>
 
   <name>exam-registration-microservice</name>
@@ -54,6 +56,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
       <version>2.6.6</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-starter-openfeign</artifactId>
     </dependency>
   </dependencies>
 

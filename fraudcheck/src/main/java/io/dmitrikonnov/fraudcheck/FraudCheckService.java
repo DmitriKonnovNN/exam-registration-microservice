@@ -1,5 +1,6 @@
 package io.dmitrikonnov.fraudcheck;
 
+import io.dmitrikonnov.clients.fraud.FraudCheckResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,14 +17,14 @@ public class FraudCheckService {
         return false;
     }
 
-    public Boolean checkIfIsFraudster(Long customerId){
-        boolean isFraudster = isFraudster(customerId);
+    public FraudCheckResponse checkIfIsFraudster(Long customerId){
+        Boolean isFraudster = isFraudster(customerId);
         fraudCheckHistoryRepo.save(FraudCheckHistory.builder()
                 .isFraudster(isFraudster)
                 .customerId(customerId)
                 .createdAt(LocalDateTime.now())
                 .build());
-        return isFraudster;
+        return new FraudCheckResponse(customerId,isFraudster);
     }
 
 }
