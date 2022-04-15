@@ -1,6 +1,6 @@
 package io.dmitrikonnov.customer;
 
-public interface CustomerRegistrationService {
+public interface CustomerRegistrationService <T> {
 
-
+    void registerCustomer(T t);
 }

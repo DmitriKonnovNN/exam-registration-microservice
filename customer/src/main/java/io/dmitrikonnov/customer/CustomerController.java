@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class CustomerController{
 
-    CustomerRegistrationServiceImpl customerService;
+    CustomerRegistrationService<CustomerRegistrationRequest> customerService;
     @PostMapping
     @Logged
     public void registerCustomer (@Valid @RequestBody CustomerRegistrationRequest customerRegistrationRequest)
