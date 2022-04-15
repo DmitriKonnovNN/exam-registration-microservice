@@ -19,19 +19,7 @@ public class FraudLoggingAspect {
     protected void registerCustomerPoint(){}
 
 
-    @Before("@annotation(io.dmitrikonnov.customer.annotation.Logged) && args(customerRegistrationRequest) && anyExecutionPointWithArgs() && inControllerPoint()")
-    public void logRegistrationRequest(CustomerRegistrationRequest customerRegistrationRequest) {
-        logger.info(String.format(Messages.FraudCheckMsg,
-                customerRegistrationRequest.getFirstName(),
-                customerRegistrationRequest.getLastName(),
-                customerRegistrationRequest.getEmail(),
-                customerRegistrationRequest.getCreatedAt()));
 
-        logger.info("Request: {}", customerRegistrationRequest);
-    }
 
-    @Around("@annotation(io.dmitrikonnov.customer.annotation.Logged)")
-    public void logCustomerPersistence(){
 
-    }
 }

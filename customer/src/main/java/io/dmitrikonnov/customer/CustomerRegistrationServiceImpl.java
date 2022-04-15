@@ -14,7 +14,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
     RestTemplate restTemplate;
 
     protected Boolean checkIfFraud (Long customerId){
-        return restTemplate.getForEntity("http:localhost:8081/api/v1/fraud-check/{customerId}",Boolean.class,customerId)
+        return restTemplate.getForEntity("http:localhost:FRAUDCHECK/api/v1/fraud-check/{customerId}",Boolean.class,customerId)
                 .getBody();
     }
 

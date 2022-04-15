@@ -1,17 +1,18 @@
 services:
   postgres:
     container_name: customer-db
-    image: postgres
+    image: postgres:alpine
     environment:
       POSTGRES_USER: dmitri
       POSTGRES_PASSWORD: P@ssw0rd
-      POSTGRES_MULTIPLE_DATABASES: customers, fraud
+      POSTGRES_MULTIPLE_DATABASES: customer,fraud,notification
       PGDATA: /data/postgres
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     volumes:
-      - postgres:/data/postgres
+      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
+      - postgres-examreg-db:/var/lib/data/postgres
     ports:
-      - "5432:5432"
+      - "54321:5432"
     networks:
       - postgres
     restart: unless-stopped
@@ -24,7 +25,7 @@ services:
       PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - pgadmin:/var/lib/pgadmin
+      - pgadmin-examreg-db:/var/lib/pgadmin
     ports:
       - "5050:80"
     networks:
@@ -36,5 +37,5 @@ networks:
     driver: bridge
 
 volumes:
-  postgres:
-  pgadmin:
+  postgres-examreg-db:
+  pgadmin-examreg-db:
