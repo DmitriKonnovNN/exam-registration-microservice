@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name: notification
+  zipkin:
+    base-url: http://localocalhost:9411
   mail:
     host: localhost
     port: 1025
