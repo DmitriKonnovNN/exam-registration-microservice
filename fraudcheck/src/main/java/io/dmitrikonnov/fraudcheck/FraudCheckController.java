@@ -14,7 +14,6 @@ public class FraudCheckController {
     @GetMapping(path = "{customerId}")
     public FraudCheckResponse checkIfCustomerIsFraudster (@PathVariable("customerId") Long customerId) {
 
-        System.out.println("FRAUD controller");
         return fraudCheckService.checkIfIsFraudster(customerId);
     }
 }

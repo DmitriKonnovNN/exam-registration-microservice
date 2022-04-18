@@ -16,6 +16,7 @@
     <module>clients</module>
     <module>annotations</module>
     <module>notifications</module>
+    <module>apigateway</module>
   </modules>
 
   <name>exam-registration-microservice</name>

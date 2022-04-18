@@ -24,7 +24,6 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 
     protected FraudCheckResponse checkIfFraud (Long customerId){
 
-       /* return template.getForEntity("http://FRAUDCHECK:8081/api/v1/fraud-check/{customerId}",FraudCheckResponse.class,customerId).getBody();*/
        return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
     }
     protected void notifyViaEmail (String firstName, String lastName, String email,String message){
@@ -50,7 +49,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
             throw new IllegalStateException("fraudster");
         }
         //TODO: send notifications
-        System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+
         notifyViaEmail(customer.getFirstName(), customer.getLastName(), customer.getEmail(), "");
 
             }
