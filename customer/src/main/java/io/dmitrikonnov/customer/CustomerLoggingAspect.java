@@ -1,10 +1,8 @@
 package io.dmitrikonnov.customer;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.annotation.Around;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -14,7 +12,6 @@ import org.springframework.stereotype.Component;
 @Slf4j
 public class CustomerLoggingAspect {
     Logger logger = LoggerFactory.getLogger(this.getClass());
-
 
     @Pointcut("within(io.dmitrikonnov.customer.CustomerController)")
     protected void inControllerPoint(){}
@@ -26,9 +23,12 @@ public class CustomerLoggingAspect {
     protected void registerCustomerPoint(){}
 
 
-    @Before("@annotation(io.dmitrikonnov.annotation.Logged) && args(customerRegistrationRequest) && anyExecutionPointWithArgs() && inControllerPoint()")
+
+
+    @After("@annotation(io.dmitrikonnov.annotations.logging.Logged) && args(customerRegistrationRequest) && anyExecutionPointWithArgs() && inControllerPoint()")
+
     public void logRegistrationRequest(CustomerRegistrationRequest customerRegistrationRequest) {
-        logger.info(String.format(Messages.REGISTRATION_REQUEST_ARGS,
+        logger.error(String.format(Messages.REGISTRATION_REQUEST_ARGS,
                 customerRegistrationRequest.getFirstName(),
                 customerRegistrationRequest.getLastName(),
                 customerRegistrationRequest.getEmail(),
@@ -37,8 +37,5 @@ public class CustomerLoggingAspect {
         logger.info("Request: {}", customerRegistrationRequest);
     }
 
- /*   @Around("@annotation(annotation.Logged)")
-    public void logCustomerPersistence(){
 
-    }*/
 }

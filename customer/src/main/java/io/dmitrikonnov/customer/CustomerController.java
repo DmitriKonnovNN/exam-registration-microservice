@@ -1,6 +1,8 @@
 package io.dmitrikonnov.customer;
 
-import io.dmitrikonnov.annotation.Logged;
+
+
+import io.dmitrikonnov.annotations.logging.Logged;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

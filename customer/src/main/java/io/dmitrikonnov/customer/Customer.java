@@ -13,8 +13,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table (name = "customer",
-        indexes = @Index(columnList = "email", name = "customer_email_nbr_idx"),
-        uniqueConstraints = @UniqueConstraint(columnNames = "email", name = "customer_email_uc"))
+        indexes = @Index(columnList = "email", name = "customer_email_nbr_idx"))
 public class Customer {
 
     @Id
