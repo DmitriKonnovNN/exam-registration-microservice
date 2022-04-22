@@ -22,6 +22,7 @@ public class CustomerController{
     @Logged
     public void registerCustomer (@Valid @RequestBody CustomerRegistrationRequest customerRegistrationRequest)
     {
+        System.out.println(Thread.currentThread().getName());
         customerService.registerCustomer(customerRegistrationRequest);
     }
 

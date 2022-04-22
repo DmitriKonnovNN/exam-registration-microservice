@@ -14,8 +14,12 @@ public class NotificationController {
 
     NotificationService<NotificationEmail,Void> notificationService;
 
+
+
     @PostMapping
-    void sendEmail(@RequestBody NotificationEmail notificationEmail){
+    void sendEmail(@RequestBody NotificationEmail notificationEmail) throws InterruptedException{
+        System.out.println("Notification controller thread: "+Thread.currentThread().getName());
+        Thread.sleep(5000);
         notificationService.send(notificationEmail);
     }
 

@@ -1,6 +1,7 @@
 server:
   port: 8083
 
+
 spring:
   application:
     name: api-gateway
@@ -8,12 +9,14 @@ spring:
     base-url: http://localhost:9411
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true
       routes:
         - id: customer
-          uri: http://localhost:8080
+          uri: lb://customer
           predicates:
             - Path=/api/v1/customer/**
-
 
 eureka:
   client:
@@ -21,3 +24,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
+  instance:
+    preferIpAddress: true
+    hostname: api-gateaway

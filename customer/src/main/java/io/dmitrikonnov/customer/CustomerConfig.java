@@ -6,11 +6,12 @@ import org.springframework.cloud.loadbalancer.annotation.LoadBalancerClients;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.client.RestTemplate;
 
 @Configuration
 @EnableAspectJAutoProxy
-
+@EnableAsync
 public class CustomerConfig {
     @LoadBalanced
     @Bean

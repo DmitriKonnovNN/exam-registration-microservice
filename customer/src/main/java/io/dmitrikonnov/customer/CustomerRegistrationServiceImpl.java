@@ -7,6 +7,7 @@ import io.dmitrikonnov.clients.notifcations.NotificationClient;
 import io.dmitrikonnov.clients.notifcations.NotificationEmail;
 import lombok.AllArgsConstructor;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -18,23 +19,13 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
     CustomerRepo customerRepo;
     RestTemplate template;
     FraudCheckClient fraudCheckClient;
-    NotificationClient notificationClient;
+    Notification notifyViaEmail;
 
 
 
     protected FraudCheckResponse checkIfFraud (Long customerId){
 
        return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
-    }
-    protected void notifyViaEmail (String firstName, String lastName, String email,String message){
-
-
-        notificationClient.sendEmail(NotificationEmail.builder()
-                .email(email)
-                .firstName(firstName)
-                .lastName(lastName)
-                .message(message).build());
-
     }
 
     public void registerCustomer(CustomerRegistrationRequest registrationRequest) {
@@ -48,10 +39,9 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
         if (isFraudster.getIsFraudster()) {
             throw new IllegalStateException("fraudster");
         }
-        //TODO: send notifications
 
-        notifyViaEmail(customer.getFirstName(), customer.getLastName(), customer.getEmail(), "");
-
+        System.out.println(Thread.currentThread().getName());
+        notifyViaEmail.notifyViaEmail(customer.getFirstName(), customer.getLastName(), customer.getEmail(), "");
             }
 
 }
