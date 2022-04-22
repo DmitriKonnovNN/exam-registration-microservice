@@ -1,5 +1,9 @@
 package io.dmitrikonnov.customer;
 
-public interface Notification {
-    void notifyViaEmail (String firstName, String lastName, String email,String message);
+import java.util.concurrent.CompletableFuture;
+
+public interface Notification <T, V> {
+   CompletableFuture<T> notifyViaEmail (V v);
+
 }
+

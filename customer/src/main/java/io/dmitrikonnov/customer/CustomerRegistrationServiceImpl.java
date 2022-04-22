@@ -3,24 +3,22 @@ package io.dmitrikonnov.customer;
 
 import io.dmitrikonnov.clients.fraud.FraudCheckClient;
 import io.dmitrikonnov.clients.fraud.FraudCheckResponse;
-import io.dmitrikonnov.clients.notifcations.NotificationClient;
-import io.dmitrikonnov.clients.notifcations.NotificationEmail;
+import io.dmitrikonnov.clients.notifcations.NotificationRequest;
 import lombok.AllArgsConstructor;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
-import org.springframework.scheduling.annotation.Async;
+import org.assertj.core.util.Arrays;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 @AllArgsConstructor
-
 public class CustomerRegistrationServiceImpl implements CustomerRegistrationService <CustomerRegistrationRequest>{
 
     CustomerRepo customerRepo;
-    RestTemplate template;
     FraudCheckClient fraudCheckClient;
-    Notification notifyViaEmail;
-
+    NotificationViaEmail<CompletableFuture<Void>>notifyViaEmail;
+    NotificationViaEmail<CompletableFuture<String>>notifyViaEmailWithResponse;
 
 
     protected FraudCheckResponse checkIfFraud (Long customerId){
@@ -41,7 +39,12 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
         }
 
         System.out.println(Thread.currentThread().getName());
-        notifyViaEmail.notifyViaEmail(customer.getFirstName(), customer.getLastName(), customer.getEmail(), "");
+        NotificationRequest request = NotificationRequest.builder()
+                .firstName(customer.getFirstName())
+                .lastName(customer.getLastName())
+                .email(customer.getEmail())
+                .message("").build();
+        notifyViaEmail.notifyViaEmail(request);
             }
 
 }

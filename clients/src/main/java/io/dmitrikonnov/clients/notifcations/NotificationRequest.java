@@ -9,10 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class NotificationEmail {
+public class NotificationRequest {
 
     String firstName;
     String lastName;
+    String fullName;
     String email;
+    String phoneNumber;
     String message;
 }

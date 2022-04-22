@@ -1,24 +1,24 @@
 package io.dmitrikonnov;
 
-import io.dmitrikonnov.clients.notifcations.NotificationEmail;
+import io.dmitrikonnov.clients.notifcations.NotificationRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class NotificationServiceImpl implements NotificationService<NotificationEmail,Void> {
+public class NotificationServiceImpl implements NotificationService<NotificationRequest,Void> {
 
     EmailSender emailSender;
 
     @Override
-    public void send(NotificationEmail notificationEmail) {
+    public void send(NotificationRequest notificationRequestEmail) {
 
-        emailSender.send(notificationEmail.getEmail(),
-                buildEmail(notificationEmail.getFirstName(),notificationEmail.getLastName(),notificationEmail.getMessage(), "www.srf.ch"));
+        emailSender.send(notificationRequestEmail.getEmail(),
+                buildEmail(notificationRequestEmail.getFirstName(), notificationRequestEmail.getLastName(), notificationRequestEmail.getMessage(), "www.srf.ch"));
     }
 
     @Override
-    public Void sendWithResponse(NotificationEmail notificationEmail) {
+    public Void sendWithResponse(NotificationRequest notificationRequestEmail) {
         return null;
     }
 
