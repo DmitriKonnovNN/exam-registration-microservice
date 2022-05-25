@@ -1,9 +1,12 @@
 package io.dmitrikonnov.customer;
 
+import org.springframework.http.ResponseEntity;
+
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
 
 public interface Notification <T, V> {
-   CompletableFuture<T> notifyViaEmail (V v);
+   Future<ResponseEntity<T>> notifyViaEmail (V v);
 
 }
 

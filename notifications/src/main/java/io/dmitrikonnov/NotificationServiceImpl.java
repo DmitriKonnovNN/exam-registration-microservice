@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class NotificationServiceImpl implements NotificationService<NotificationRequest,Void> {
+public class NotificationServiceImpl implements NotificationService<NotificationRequest, String> {
 
     EmailSender emailSender;
 
@@ -14,13 +14,25 @@ public class NotificationServiceImpl implements NotificationService<Notification
     public void send(NotificationRequest notificationRequestEmail) {
 
         emailSender.send(notificationRequestEmail.getEmail(),
-                buildEmail(notificationRequestEmail.getFirstName(), notificationRequestEmail.getLastName(), notificationRequestEmail.getMessage(), "www.srf.ch"));
+                buildEmail(notificationRequestEmail.getFirstName(),
+                        notificationRequestEmail.getLastName(),
+                        notificationRequestEmail.getMessage(), "www.srf.ch"));
     }
 
     @Override
-    public Void sendWithResponse(NotificationRequest notificationRequestEmail) {
-        return null;
+    public String sendWithResponse(NotificationRequest notificationRequestEmail) {
+
+        try {emailSender.send(notificationRequestEmail.getEmail(),
+                buildEmail(notificationRequestEmail.getFirstName(),
+                        notificationRequestEmail.getLastName(),
+                        notificationRequestEmail.getMessage(), "www.srf.ch"));}
+        catch (IllegalStateException ex){
+            return "fail";
+        }
+        return "success";
     }
+
+
 
     private String buildEmail (String firstName, String lastName, String msg, String link) {
         return "<div style=\"font-family:Helvetica,Arial,sans-serif;font-size:16px;margin:0;color:#0b0c0c\">\n" +

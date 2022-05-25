@@ -5,11 +5,16 @@ import io.dmitrikonnov.clients.fraud.FraudCheckClient;
 import io.dmitrikonnov.clients.fraud.FraudCheckResponse;
 import io.dmitrikonnov.clients.notifcations.NotificationRequest;
 import lombok.AllArgsConstructor;
-import org.assertj.core.util.Arrays;
+import lombok.SneakyThrows;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
 
+import java.sql.SQLOutput;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.Future;
+import java.util.concurrent.locks.LockSupport;
 
 @Service
 @AllArgsConstructor
@@ -17,14 +22,15 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 
     CustomerRepo customerRepo;
     FraudCheckClient fraudCheckClient;
-    NotificationViaEmail<CompletableFuture<Void>>notifyViaEmail;
-    NotificationViaEmail<CompletableFuture<String>>notifyViaEmailWithResponse;
+    NotificationViaEmail<String> notifyViaEmail;
+    ProceedOrder proceedOrder;
 
 
     protected FraudCheckResponse checkIfFraud (Long customerId){
 
        return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
     }
+
 
     public void registerCustomer(CustomerRegistrationRequest registrationRequest) {
         Customer customer = Customer.builder()
@@ -38,13 +44,15 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
             throw new IllegalStateException("fraudster");
         }
 
-        System.out.println(Thread.currentThread().getName());
         NotificationRequest request = NotificationRequest.builder()
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
                 .message("").build();
-        notifyViaEmail.notifyViaEmail(request);
+
+        Future<ResponseEntity<String>> response = notifyViaEmail.notifyViaEmail(request);
+        System.out.println(LocalDateTime.now());
+        proceedOrder.proceedOrder(response);
             }
 
 }

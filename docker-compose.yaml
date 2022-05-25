@@ -39,6 +39,13 @@ services:
     ports:
       - 9411:9411
 
+  maildev:
+    image: maildev/maildev
+    container_name: maildev
+    ports:
+      - "1080:1080"
+      - "1025:1025"
+
 
 networks:
   postgres:
