@@ -6,6 +6,9 @@ import io.dmitrikonnov.clients.fraud.FraudCheckResponse;
 import io.dmitrikonnov.clients.notifcations.NotificationRequest;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,12 +19,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.locks.LockSupport;
 
-@Service
-@AllArgsConstructor
+
+@AllArgsConstructor//(onConstructor_ = {@Autowired} )
 public class CustomerRegistrationServiceImpl implements CustomerRegistrationService <CustomerRegistrationRequest>{
 
     CustomerRepo customerRepo;
     FraudCheckClient fraudCheckClient;
+    //@Qualifier("notificationViaRabbitMQ")
     NotificationViaEmail<String> notifyViaEmail;
     ProceedOrder proceedOrder;
 
@@ -50,10 +54,11 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
                 .email(customer.getEmail())
                 .message("first notification").build();
 
-        Future<ResponseEntity<String>> response = notifyViaEmail.notifyViaEmail(request);
-        System.out.println(LocalDateTime.now());
-        proceedOrder.proceedOrder(response);
-        request.setMessage("second notification");
+
+//        Future<ResponseEntity<String>> response = notifyViaEmail.notifyViaEmail(request);
+//        System.out.println(LocalDateTime.now());
+//        proceedOrder.proceedOrder(response);
+//        request.setMessage("second notification");
         notifyViaEmail.notifyViaEmailWithNoResponse(request);
             }
 
