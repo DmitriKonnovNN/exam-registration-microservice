@@ -48,11 +48,13 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
                 .email(customer.getEmail())
-                .message("").build();
+                .message("first notification").build();
 
         Future<ResponseEntity<String>> response = notifyViaEmail.notifyViaEmail(request);
         System.out.println(LocalDateTime.now());
         proceedOrder.proceedOrder(response);
+        request.setMessage("second notification");
+        notifyViaEmail.notifyViaEmailWithNoResponse(request);
             }
 
 }

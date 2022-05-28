@@ -13,4 +13,8 @@ public interface NotificationClient {
 
     @PostMapping(path = "api/v1.2.0/notify")
     Future<ResponseEntity<String>> sendEmailWithResponse(@RequestBody NotificationRequest notificationRequest);
+
+    @PostMapping (path = "api/v1.0.0/notify")
+    void sendEmail(@RequestBody NotificationRequest notificationRequestEmail);
+
 }

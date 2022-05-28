@@ -30,4 +30,9 @@ public class NotificationViaEmailImpl  implements NotificationViaEmail<String> {
 
         return  notificationClient.sendEmailWithResponse(notificationRequest);
     }
+
+    @Override
+    public void notifyViaEmailWithNoResponse(NotificationRequest notificationRequest) {
+        notificationClient.sendEmail(notificationRequest);
+    }
 }
