@@ -3,6 +3,7 @@ package io.dmitrikonnov.amqp;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
@@ -27,6 +28,7 @@ public class RabbitMQConfig {
     @Bean
     public SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory (){
         SimpleRabbitListenerContainerFactory simpleRabbitListenerContainerFactory = new SimpleRabbitListenerContainerFactory();
+        //CachingConnectionFactory.CacheMode.CHANNEL;
         simpleRabbitListenerContainerFactory.setConnectionFactory(connectionFactory);
         simpleRabbitListenerContainerFactory.setMessageConverter(jacksonMessageConverter());
         return simpleRabbitListenerContainerFactory;

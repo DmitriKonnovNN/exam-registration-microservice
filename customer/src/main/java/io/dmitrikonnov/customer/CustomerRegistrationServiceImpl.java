@@ -20,12 +20,11 @@ import java.util.concurrent.Future;
 import java.util.concurrent.locks.LockSupport;
 
 
-@AllArgsConstructor//(onConstructor_ = {@Autowired} )
+@AllArgsConstructor
 public class CustomerRegistrationServiceImpl implements CustomerRegistrationService <CustomerRegistrationRequest>{
 
     CustomerRepo customerRepo;
     FraudCheckClient fraudCheckClient;
-    //@Qualifier("notificationViaRabbitMQ")
     NotificationViaEmail<String> notifyViaEmail;
     ProceedOrder proceedOrder;
 

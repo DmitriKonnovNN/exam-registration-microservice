@@ -15,7 +15,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
 
-@Service
+@Service ("notificationViaSpringAsync")
 @AllArgsConstructor
 public class NotificationViaEmailImpl  implements NotificationViaEmail<String> {
 

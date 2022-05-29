@@ -3,17 +3,12 @@ package io.dmitrikonnov.customer;
 import io.dmitrikonnov.clients.fraud.FraudCheckClient;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.tomcat.jni.Proc;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-
-import javax.persistence.PreRemove;
 
 @Configuration
 @AllArgsConstructor (onConstructor_ = {@Autowired} )
