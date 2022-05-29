@@ -32,6 +32,7 @@ public class NotificationViaEmailImpl  implements NotificationViaEmail<String> {
     }
 
     @Override
+    @Async
     public void notifyViaEmailWithNoResponse(NotificationRequest notificationRequest) {
         notificationClient.sendEmail(notificationRequest);
     }
