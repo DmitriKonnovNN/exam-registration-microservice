@@ -13,11 +13,7 @@
     <packaging>jar</packaging>
     <artifactId>notifications</artifactId>
 
-    <properties>
-        <java.version>17</java.version>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
-    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -54,6 +50,7 @@
         <dependency>
             <groupId>io.dmitrikonnov</groupId>
             <artifactId>amqp</artifactId>
+            <scope>compile</scope>
             <version>1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
