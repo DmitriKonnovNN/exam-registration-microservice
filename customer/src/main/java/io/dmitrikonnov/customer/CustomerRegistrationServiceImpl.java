@@ -31,7 +31,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 
     protected FraudCheckResponse checkIfFraud (Long customerId){
 
-       return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
+        return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
     }
 
 
@@ -42,7 +42,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
                 .email(registrationRequest.getEmail()).build();
         customerRepo.saveAndFlush(customer);
 
-       final FraudCheckResponse isFraudster = checkIfFraud(customer.getId());
+        final FraudCheckResponse isFraudster = checkIfFraud(customer.getId());
         if (isFraudster.getIsFraudster()) {
             throw new IllegalStateException("fraudster");
         }
@@ -59,6 +59,6 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 //        proceedOrder.proceedOrder(response);
 //        request.setMessage("second notification");
         notifyViaEmail.notifyViaEmailWithNoResponse(request);
-            }
+    }
 
 }
