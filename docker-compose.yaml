@@ -1,5 +1,5 @@
 services:
-  postgres:
+  customer-db:
     container_name: customer-db
     image: postgres:alpine
     environment:
@@ -12,9 +12,9 @@ services:
       - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
       - postgres-examreg-db:/var/lib/data/postgres
     ports:
-      - "54321:5432"
+      - "5433:5432"
     networks:
-      - postgres
+      - reg-db-ntwk
     restart: unless-stopped
 
   pgadmin:
@@ -29,13 +29,15 @@ services:
     ports:
       - "5050:80"
     networks:
-      - postgres
+      - reg-db-ntwk
     restart: unless-stopped
 
 
   zipkin:
     image: openzipkin/zipkin
     container_name: zipkin
+    networks:
+      - exmmicros
     ports:
       - 9411:9411
 
@@ -45,16 +47,91 @@ services:
     ports:
       - "1080:1080"
       - "1025:1025"
+    networks:
+      - exmmicros
   rabbitmq:
     image: rabbitmq:3.9.11-management-alpine
     container_name: rabbitmq
     ports:
       - "5672:5672"
       - "15672:15672"
+    networks:
+      - exmmicros
+  api-gateway:
+    image: dmitriikonnovnn/apigateway:1.0-SNAPSHOT
+    container_name: api-gateway
+    ports:
+      - "8083:8083"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - exmmicros
+    depends_on:
+      - zipkin
+      - eureka-server
+  eureka-server:
+    container_name: eureka-server
+    image: dmitriikonnovnn/eureka-server:1.0-SNAPSHOT
+    ports:
+      - "8761:8761"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - exmmicros
+    depends_on:
+      - zipkin
+
+  customer:
+    container_name: customer
+    image: dmitriikonnovnn/customer:1.0-SNAPSHOT
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - reg-db-ntwk
+      - exmmicros
+    depends_on:
+      - customer-db
+      - zipkin
+      - eureka-server
+      - rabbitmq
+
+  fraudcheck:
+    container_name: fraud-check
+    image: dmitriikonnovnn/fraudcheck:1.0-SNAPSHOT
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - reg-db-ntwk
+      - exmmicros
+    depends_on:
+      - customer-db
+      - zipkin
+      - eureka-server
+      - rabbitmq
+  notification:
+    container_name: notification
+    image: dmitriikonnovnn/notifications:1.0-SNAPSHOT
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_PROFILES_ACTIVE=docker
+    networks:
+      - exmmicros
+    depends_on:
+      - zipkin
+      - eureka-server
+      - rabbitmq
+
 
 
 networks:
-  postgres:
+  reg-db-ntwk:
+    driver: bridge
+  exmmicros:
     driver: bridge
 
 volumes:

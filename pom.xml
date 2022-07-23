@@ -36,7 +36,7 @@
     <spring.boot.maven.plugin.version>2.5.7</spring.boot.maven.plugin.version>
     <spring.boot.dependencies.version>2.6.6</spring.boot.dependencies.version>
     <spring.cloud-version>2021.0.1</spring.cloud-version>
-    <image>docker.io/dmitriikonnovnn/${project.artifactId}:${project.version}</image>
+
   </properties>
 
   <dependencyManagement>
@@ -101,20 +101,28 @@
           <version>3.2.0</version>
           <configuration>
             <from>
-              <image>eclipse-temurin:11</image>
-              <platforms>
+              <image>openjdk:12-oracle</image>
+              <!--<platforms>
                 <platforms>
                   <architecture>
                     amd64
                   </architecture>
                   <os>windows</os>
                 </platforms>
-              </platforms>
+              </platforms>-->
             </from>
             <to>
-              <tags>local-latest</tags>
+              <image>docker.io/dmitriikonnovnn/${project.artifactId}:${project.version}</image>
             </to>
           </configuration>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>build</goal>
+              </goals>
+            </execution>
+          </executions>
         </plugin>
       </plugins>
     </pluginManagement>
