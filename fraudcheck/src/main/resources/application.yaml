@@ -5,7 +5,7 @@ spring:
     name: fraudcheck
   datasource:
     password: P@ssw0rd
-    url: jdbc:postgresql://localhost:54321/fraud
+    url: jdbc:postgresql://localhost:5432/fraud
     username: dmitri
   jpa:
     hibernate:

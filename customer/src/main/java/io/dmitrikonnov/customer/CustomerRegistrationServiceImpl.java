@@ -6,6 +6,9 @@ import io.dmitrikonnov.clients.fraud.FraudCheckResponse;
 import io.dmitrikonnov.clients.notifcations.NotificationRequest;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +19,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 import java.util.concurrent.locks.LockSupport;
 
-@Service
+
 @AllArgsConstructor
 public class CustomerRegistrationServiceImpl implements CustomerRegistrationService <CustomerRegistrationRequest>{
 
@@ -28,7 +31,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 
     protected FraudCheckResponse checkIfFraud (Long customerId){
 
-       return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
+        return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
     }
 
 
@@ -39,7 +42,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
                 .email(registrationRequest.getEmail()).build();
         customerRepo.saveAndFlush(customer);
 
-       final FraudCheckResponse isFraudster = checkIfFraud(customer.getId());
+        final FraudCheckResponse isFraudster = checkIfFraud(customer.getId());
         if (isFraudster.getIsFraudster()) {
             throw new IllegalStateException("fraudster");
         }
@@ -50,11 +53,12 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
                 .email(customer.getEmail())
                 .message("first notification").build();
 
-        Future<ResponseEntity<String>> response = notifyViaEmail.notifyViaEmail(request);
-        System.out.println(LocalDateTime.now());
-        proceedOrder.proceedOrder(response);
-        request.setMessage("second notification");
+
+//        Future<ResponseEntity<String>> response = notifyViaEmail.notifyViaEmail(request);
+//        System.out.println(LocalDateTime.now());
+//        proceedOrder.proceedOrder(response);
+//        request.setMessage("second notification");
         notifyViaEmail.notifyViaEmailWithNoResponse(request);
-            }
+    }
 
 }
