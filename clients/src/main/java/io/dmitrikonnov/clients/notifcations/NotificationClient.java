@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
-@FeignClient(name = "NOTIFICATION")
+@FeignClient(name = "NOTIFICATION", url = "${clients.notification.url}")
 public interface NotificationClient {
 
     @PostMapping(path = "api/v1.2.0/notify")
