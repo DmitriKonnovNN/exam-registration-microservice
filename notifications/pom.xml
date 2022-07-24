@@ -5,7 +5,7 @@
     <parent>
         <groupId>io.dmitrikonnov</groupId>
         <artifactId>exam-registration-microservice</artifactId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.1-SNAPSHOT</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -34,13 +34,13 @@
         <dependency>
             <groupId>io.dmitrikonnov</groupId>
             <artifactId>clients</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>io.dmitrikonnov</groupId>
             <artifactId>annotations</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.1-SNAPSHOT</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
@@ -51,7 +51,7 @@
             <groupId>io.dmitrikonnov</groupId>
             <artifactId>amqp</artifactId>
             <scope>compile</scope>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.1-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
