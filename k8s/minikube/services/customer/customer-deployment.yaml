@@ -11,6 +11,7 @@ spec:
       name: customer
       labels:
         app: customer
+        tier: backend
     spec:
       containers:
         - name: customer
@@ -25,3 +26,17 @@ spec:
   selector:
     matchLabels:
       app: customer
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer
+spec:
+  selector:
+    app: customer
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
