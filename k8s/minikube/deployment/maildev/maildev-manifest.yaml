@@ -21,6 +21,7 @@ metadata:
   name: maildev
   labels:
     app: maildev
+    env: test
 spec:
   replicas: 1
   selector:

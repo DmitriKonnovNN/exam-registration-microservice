@@ -11,6 +11,7 @@ spec:
       name: notification
       labels:
         app: notification
+        tier: backend
     spec:
       containers:
         - name: notification
@@ -25,3 +26,18 @@ spec:
   selector:
     matchLabels:
       app: notification
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: notification
+spec:
+  selector:
+    app: notification
+  ports:
+    - port: 80
+      targetPort: 8082
+  type: NodePort
