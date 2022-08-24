@@ -25,8 +25,52 @@ eureka:
       defaultZone: http://localhost:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
-    enabled: false
+    enabled: true
 customer-service:
-  ipc-configuration: notificationViaRabbitMQ
-
+  ipc-configuration: notificationViaSpringAsync
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  circuitbreaker:
+    instances:
+      cbCheckIfFraud:
+#        maxRetryAttempts: 2
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+      cbNotificationViaSpringAsync:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 5s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+    circuit-breaker-aspect-order: 2
+#  retry:
+#    instances:
+#      retryCheckIfFraud:
+#        registerHealthIndicator: true
+#        maxRetryAttempts: 2
+#        waitDuration: 2s
+#    retry-aspect-order: 3
 

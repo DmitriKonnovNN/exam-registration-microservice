@@ -5,7 +5,7 @@ spring:
     name: fraudcheck
   datasource:
     password: P@ssw0rd
-    url: jdbc:postgresql://localhost:5432/fraud
+    url: jdbc:postgresql://localhost:5433/fraud
     username: dmitri
   jpa:
     hibernate:
@@ -23,4 +23,26 @@ eureka:
       defaultZone: http://localhost:8761/eureka
     fetch-registry: true
     register-with-eureka: true
-    enabled: false
+    enabled: true
+management:
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: health
+  endpoint:
+    health:
+      show-details: always
+resilience4j:
+  ratelimiter:
+    instances:
+      rl:
+        registerHealthIndicator: true
+        limitForPeriod: 1
+        limitRefreshPeriod: 5000ms
+        timeoutDuration: 10s
+

@@ -4,8 +4,12 @@ package io.dmitrikonnov.customer;
 import io.dmitrikonnov.clients.fraud.FraudCheckClient;
 import io.dmitrikonnov.clients.fraud.FraudCheckResponse;
 import io.dmitrikonnov.clients.notifcations.NotificationRequest;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.AllArgsConstructor;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Lazy;
@@ -21,19 +25,30 @@ import java.util.concurrent.locks.LockSupport;
 
 
 @AllArgsConstructor
+@Slf4j
 public class CustomerRegistrationServiceImpl implements CustomerRegistrationService <CustomerRegistrationRequest>{
-
+    private static final String CB_CHECK_IF_FRAUD = "cbCheckIfFraud";
+    private static final String RTR_CHECK_IF_FRAUD = "retryCheckIfFraud";
+    private static final String CB_FLBCK_MTHD = "checkIfFraudFallBack";
+    private static final String RL_CHECK_IF_FRAUD = "rlCheckIfFraud";
     CustomerRepo customerRepo;
     FraudCheckClient fraudCheckClient;
     NotificationViaEmail<String> notifyViaEmail;
     ProceedOrder proceedOrder;
 
 
+    @CircuitBreaker(name = CB_CHECK_IF_FRAUD, fallbackMethod = CB_FLBCK_MTHD)
+    //@Retry(name = RTR_CHECK_IF_FRAUD )
     protected FraudCheckResponse checkIfFraud (Long customerId){
 
+        log.info("check if fraud triggered");
         return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
     }
 
+    public FraudCheckResponse checkIfFraudFallBack (Long customerId, Exception ex) {
+        log.error("Circuit Breaker checkIfFraud has kicked off! Caused by: " + ex);
+        return new FraudCheckResponse(customerId,true);
+    }
 
     public void registerCustomer(CustomerRegistrationRequest registrationRequest) {
         Customer customer = Customer.builder()
