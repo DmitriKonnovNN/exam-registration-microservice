@@ -4,8 +4,8 @@ variable "owner" {
 
 variable "ami" {
   type    = string
-  description = "Ubuntu 20.02 AMI"
-  default = "ami-08c40ec9ead489470"
+  default = "ami-026b57f3c383c2eec"
+  description = "ami amazon linux 2"
 }
 
 variable "app_tag_name" {
