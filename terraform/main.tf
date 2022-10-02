@@ -20,15 +20,17 @@ resource "aws_instance" "app_reg-mcrsvc" {
   key_name = aws_key_pair.ec2-key-pair.key_name
   user_data              = <<-EOF
                 #!/bin/bash
-                sudo apt-get update
+                echo "-----------------------START BOOTSTRAPPING-----------------------"
+                apt-get update
                 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-                sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-                sudo apt-get update
+                add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+                apt-get update
                 apt-cache policy docker-ce
-                sudo apt-get install -y docker-ce
-                sudo service docker start
-                sudo service docker status 
-                sudo docker run hello-world
+                apt-get install -y docker-ce
+                service docker start
+                service docker status
+                "UserData executed on $(date)">>/var/www/html/log.txt &
+                echo "---------------------FINISH BOOTSTRAPPING_________________________"
                 &
                 EOF
   tags = {
