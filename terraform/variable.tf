@@ -2,12 +2,6 @@ variable "owner" {
   type = string
 }
 
-variable "ami" {
-  type    = string
-  default = "ami-026b57f3c383c2eec"
-  description = "ami amazon linux 2"
-}
-
 variable "app_tag_name" {
   description = "Enter tag name for all resources to be built"
   type        = string
@@ -23,5 +17,5 @@ variable "local_profile" {
 
 variable "app_main_port" {
   description = "standard port web server listens to"
-  type = number
+  type        = number
 }
