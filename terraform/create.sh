@@ -1,5 +1,7 @@
 #!/bin/bash
 set -e 
-terraform output -json > output.json
-terraform apply [plan.tfplan] > ./output.json
-mv *-rsa-keys.pem ~/dkuser/.ssh/
+PN="plan-$(USER)"
+terraform plan -out="$PN".tfplan
+terraform apply "$PN".tfplan
+export EC2_PBL_DNS=$(terraform output -json public_ec2_dns)
+cp *-rsa-keys.pem ~/.ssh/

@@ -1,5 +1,6 @@
 [web-staging-server]
-linux2 ansbile_host= ansible_ssh_private_key_file=/home/dkuser/ .ssh/*-rsa-keys.pem
+linux2 ansible_ssh_private_key_file=/home/dkuser/ .ssh/*-rsa-keys.pem
 
 [web-staging-server:vars]
 ansible_user=ec2-user
+ansbile_host=$EC2_PBL_DNS

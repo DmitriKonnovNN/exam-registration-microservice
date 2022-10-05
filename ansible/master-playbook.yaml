@@ -1,4 +1,4 @@
-# Ansible playbook AWS - install docker on Linux2 
+# Ansible playbook AWS - install docker on Amazon-Linux-2 EC2-instance 
 ---
 - name: "AWS - Install docker"
   hosts: web-staging-server
