@@ -24,6 +24,7 @@
     <module>annotations</module>
     <module>notifications</module>
     <module>apigateway</module>
+      <module>user-session-service</module>
   </modules>
 
   <name>exam-registration-microservice</name>

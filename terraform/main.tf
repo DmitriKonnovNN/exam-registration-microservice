@@ -25,7 +25,21 @@ resource "aws_instance" "app_reg-mcrsvc" {
   user_data              = <<-EOF
                 #!/bin/bash
                 echo "-----------------------START BOOTSTRAPPING-----------------------"
-                curl https://github.com/DmitriKonnovNN/exam-registration-microservice/blob/017a0d46107d1ee75dbb897998381acc1e1a1c02/docker-compose.yaml -o > /var/www/docker-compose.yaml
+                yum -y update
+                yum -y install yum-utils
+                yum-config-manager --add-repo
+                amazon-linux-extras install docker
+                service docker start
+                service docker status
+                echo "docker compose version $(docker compose version)"
+                mkdir var/www
+                chmod 777 var/www
+                curl https://raw.githubusercontent.com/DmitriKonnovNN/exam-registration-microservice/017a0d46107d1ee75dbb897998381acc1e1a1c02/docker-compose.yaml -O > /var/www/docker-compose.yaml
+                curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+                chmod +x /usr/local/bin/docker-compose
+                gpasswd -a $USER docker
+                newgrp docker
+                docker-compose up -d /var/www
                 "UserData executed on $(date)">>/var/www/html/log.txt &
                 echo "---------------------FINISH BOOTSTRAPPING_________________________"
                 &
@@ -100,20 +114,7 @@ locals {
 
 
 
-#  yum -y update
-#                 yum -y install yum-utils
-#                 yum-config-manager --add-repo 
 
-#                 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-#                 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-#                 apt-get update
-#                 apt-cache policy docker-ce
-#                 apt-get install -y docker-ce
-#                 apt-get install docker-compose-plugin
-#                 service docker start
-#                 service docker status
-#                 echo "docker compose version $(docker compose version)"
-#                 
 #                 cd /var/www && docker compose up -d zipkin maildev
 #                 echo "containers running: $(docker ps)"
 #                 

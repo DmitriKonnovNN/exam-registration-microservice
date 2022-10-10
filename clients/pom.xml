@@ -13,7 +13,6 @@
     <packaging>jar</packaging>
     <artifactId>clients</artifactId>
 
-
     <dependencies>
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>

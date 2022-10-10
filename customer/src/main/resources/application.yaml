@@ -5,8 +5,8 @@ spring:
     name: customer
   datasource:
     password: P@ssw0rd
-    url: jdbc:postgresql://localhost:5433/customer
-    username: dmitri
+    url: jdbc:postgresql://localhost:5432/customer
+    username: postgres
   jpa:
     hibernate:
       ddl-auto: update
@@ -73,4 +73,6 @@ resilience4j:
 #        maxRetryAttempts: 2
 #        waitDuration: 2s
 #    retry-aspect-order: 3
-
+logging:
+  level:
+    feign: debug
