@@ -25,8 +25,9 @@ public class SessionValidationFilter implements Filter {
         if (sessionIdHeader == null) {
             httpServletResponse.sendError(HttpStatus.FORBIDDEN.value());
         }else {
+            UUID sessionIdUUID = UUID.fromString(sessionIdHeader);
             Map<String, Object> queryMap = new HashMap<>();
-            queryMap.put("sessionId", sessionIdHeader);
+            queryMap.put("sessionId", sessionIdUUID);
             queryMap.put("anotherId", UUID.randomUUID().toString());
             var resp = client.validate(queryMap);
             if(!resp.isValid()){
