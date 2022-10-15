@@ -18,4 +18,13 @@ public class UserSessionController {
                 valid(isValid).
                 build();
     }
+
+    @GetMapping("/user-sessions/validateRequest")
+    public UserSessionValidatorResponse validateRequest(@RequestParam("sessionId") UUID sessionId){
+        boolean isValid = UUID.fromString("123e4567-e89b-12d3-a456-426614174000").equals(sessionId);
+        return UserSessionValidatorResponse.builder().
+                sessionId(sessionId).
+                valid(isValid).
+                build();
+    }
 }

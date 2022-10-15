@@ -14,6 +14,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 
+import javax.transaction.Transactional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Future;
 
@@ -38,6 +39,7 @@ public class NotificationViaEmailImpl  implements NotificationViaEmail<String> {
 
     @Override
     @Async
+    @Transactional
     @CircuitBreaker(name = CB_NTFCN_VIA_SPNG_ASNC, fallbackMethod = "notificationFallBack")
     public void notifyViaEmailWithNoResponse(NotificationRequest notificationRequest) {
         notificationClient.sendEmail(notificationRequest);
