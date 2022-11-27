@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mc-services-config
+data:
+  spring_profiles_active: kube
+
+  spring_datasource_url_customer:  jdbc:postgresql://private-db-postgresql-fra1-11389-do-user-12731162-0.b.db.ondigitalocean.com:25060/customer
+  spring_datasource_url_fraud: jdbc:postgresql://private-db-postgresql-fra1-11389-do-user-12731162-0.b.db.ondigitalocean.com:25060/fraud
+  spring_datasource_url_notification: jdbc:postgresql://private-db-postgresql-fra1-11389-do-user-12731162-0.b.db.ondigitalocean.com:25060/notification

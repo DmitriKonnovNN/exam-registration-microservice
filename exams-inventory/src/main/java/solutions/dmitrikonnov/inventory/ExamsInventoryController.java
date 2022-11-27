@@ -2,10 +2,10 @@ package solutions.dmitrikonnov.inventory;
 
 import io.dmitrikonnov.clients.examInvetory.CreateExamRequest;
 import io.dmitrikonnov.clients.examInvetory.CreateExamResponse;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.OffsetDateTime;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
@@ -16,7 +16,7 @@ public class ExamsInventoryController {
     static {
         UUID productId = UUID.fromString("");
 
-        products.put(productId, new Product(productId,"C1 course", 100));
+        products.put(productId, new Product(productId,"C1 course", 100, null));
     }
 
 
@@ -24,5 +24,18 @@ public class ExamsInventoryController {
     CreateExamResponse createExam (@RequestBody CreateExamRequest request){
         CreateExamResponse response = new CreateExamResponse();
         return new CreateExamResponse();
+    }
+
+    @PostMapping("/products/{productId}/buy")
+    ResponseEntity<?> book(@PathVariable("productId") UUID productId,
+                           @RequestParam (value = "amount", required = false, defaultValue = "1") int amount,
+                           @RequestParam (value = "boughtAt")OffsetDateTime boughtAt) {
+
+        Product product = products.get(productId);
+        int currentStock = product.getStock();
+        product.setStock(currentStock - amount);
+        product.setLastBoughtAt(boughtAt);
+
+        return ResponseEntity.ok().build();
     }
 }

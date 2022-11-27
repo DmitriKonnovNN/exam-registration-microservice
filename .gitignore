@@ -227,3 +227,7 @@ terraform.rc
 
 # End of https://www.toptal.com/developers/gitignore/api/maven,intellij,java
 /terraform/.terraform/
+
+# Exclue all secrets
+*-secrets.yaml
+

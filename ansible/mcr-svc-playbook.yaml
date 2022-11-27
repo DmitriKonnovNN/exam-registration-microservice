@@ -1,0 +1,13 @@
+# install microservices over docker compose
+---
+- name: "Pull and run services based on docker-compose-file"
+  hosts: web-staging-server
+  become: yes
+  tasks:
+    - name: Download docker-compose.yaml and dbinit.sh from
+      
+    - name: Deploy docker-compose stack 
+      community.docker.docker_compose:
+        project_src: ~/ec2-user/Desktop/docker-stack/
+        files:
+          - docker-*.y*l

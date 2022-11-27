@@ -21,7 +21,25 @@ spec:
             - containerPort: 8082
           env:
             - name: SPRING_PROFILES_ACTIVE
-              value: kube
+              valueFrom:
+                configMapKeyRef:
+                    key: spring_profiles_active
+                    name: mc-services-config
+            - name: SPRING_DATASOURCE_USERNAME
+              valueFrom:
+                configMapKeyRef:
+                  key: postgres_username
+                  name: mc-services-config
+            - name: SPRING_DATASOURCE_URL
+              valueFrom:
+                configMapKeyRef:
+                  key: spring_datasource_url_notification
+                  name: mc-services-config
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  key: POSTGRES_PASSWORD
+                  name: mc-services-secret
       restartPolicy: Always
   selector:
     matchLabels:
