@@ -28,17 +28,17 @@ spec:
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
                 secretKeyRef:
-                  key: postgres_username
+                  key: customer_service_username
                   name: mc-services-secret
             - name: SPRING_DATASOURCE_URL
               valueFrom:
                 configMapKeyRef:
-                  key: spring_datasource_url_customer
+                  key: spring_datasource_new_url_customer
                   name: mc-services-config
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: postgres_password
+                  key: customer_service_password
                   name: mc-services-secret
       restartPolicy: Always
   selector:

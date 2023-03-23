@@ -8,3 +8,6 @@ data:
   spring_datasource_url_customer:  jdbc:postgresql://private-db-postgresql-fra1-11389-do-user-12731162-0.b.db.ondigitalocean.com:25060/customer
   spring_datasource_url_fraud: jdbc:postgresql://private-db-postgresql-fra1-11389-do-user-12731162-0.b.db.ondigitalocean.com:25060/fraud
   spring_datasource_url_notification: jdbc:postgresql://private-db-postgresql-fra1-11389-do-user-12731162-0.b.db.ondigitalocean.com:25060/notification
+  spring_datasource_new_url_customer: jdbc:postgresql://private-postgres-cluster-do-user-12731162-0.b.db.ondigitalocean.com:25061/customer
+  spring_datasource_new_url_notification: jdbc:postgresql://private-postgres-cluster-do-user-12731162-0.b.db.ondigitalocean.com:25061/notification
+  spring_datasource_new_url_fraud: jdbc:postgresql://private-postgres-cluster-do-user-12731162-0.b.db.ondigitalocean.com:25061/fraud

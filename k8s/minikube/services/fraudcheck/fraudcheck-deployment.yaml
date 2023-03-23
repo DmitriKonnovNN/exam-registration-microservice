@@ -27,18 +27,18 @@ spec:
                     name: mc-services-config
             - name: SPRING_DATASOURCE_USERNAME
               valueFrom:
-                configMapKeyRef:
-                  key: postgres_username
-                  name: mc-services-config
+                secretKeyRef:
+                  key: fraud_service_username
+                  name: mc-services-secret
             - name: SPRING_DATASOURCE_URL
               valueFrom:
                 configMapKeyRef:
-                  key: spring_datasource_url_fraud
+                  key: spring_datasource_new_url_fraud
                   name: mc-services-config
             - name: SPRING_DATASOURCE_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  key: POSTGRES_PASSWORD
+                  key: fraud_service_password
                   name: mc-services-secret
       restartPolicy: Always
   selector:
