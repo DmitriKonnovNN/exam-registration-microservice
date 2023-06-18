@@ -65,7 +65,7 @@ resilience4j:
         permittedNumberOfCallsInHalfOpenState: 3
         slidingWindowSize: 10
         slidingWindowType: COUNT_BASED
-    circuit-breaker-aspect-order: 2
+#   circuit-breaker-aspect-order: 2
 #  retry:
 #    instances:
 #      retryCheckIfFraud:
