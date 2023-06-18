@@ -22,3 +22,7 @@ variable "aws_region" {
 variable "local_profile" {
   type = string
 }
+
+variable "cluster_name" {
+  type = string
+}

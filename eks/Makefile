@@ -1,18 +1,18 @@
-init u:
+iu:
 	terraform init -upgrade
 	terraform fmt
 	terraform validate
 	terraform plan
-init:
+i:
 	terraform init
 	terraform fmt
 	terraform validate
 	terraform plan
-plan:
+p:
 	terraform fmt
 	terraform validate
 	terraform plan
-apply:
+a:
 	terraform apply
-destroy:
+d:
 	terraform destroy
