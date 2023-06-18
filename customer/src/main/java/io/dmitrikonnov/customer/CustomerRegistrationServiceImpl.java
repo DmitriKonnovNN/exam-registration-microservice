@@ -39,7 +39,7 @@ public class CustomerRegistrationServiceImpl implements CustomerRegistrationServ
 
     @CircuitBreaker(name = CB_CHECK_IF_FRAUD, fallbackMethod = CB_FLBCK_MTHD)
     //@Retry(name = RTR_CHECK_IF_FRAUD )
-    protected FraudCheckResponse checkIfFraud (Long customerId){
+    public FraudCheckResponse checkIfFraud (Long customerId){
 
         log.info("check if fraud triggered");
         return fraudCheckClient.checkIfCustomerIsFraudster(customerId);
