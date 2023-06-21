@@ -12,10 +12,10 @@ provider "kubernetes" {
 
 data "aws_eks_cluster" "default" {
   #  name = var.cluster_name
-  name = module.eks.cluster_name
+  name = module.eks.cluster_id
 }
 data "aws_eks_cluster_auth" "default" {
-  name = module.eks.cluster_name
+  name = module.eks.cluster_id
 }
 
 
