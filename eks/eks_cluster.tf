@@ -12,10 +12,10 @@ provider "kubernetes" {
 
 data "aws_eks_cluster" "default" {
   #  name = var.cluster_name
-  name = module.eks.cluster_id
+  name = module.eks.cluster_name
 }
 data "aws_eks_cluster_auth" "default" {
-  name = module.eks.cluster_id
+  name = module.eks.cluster_name
 }
 
 
@@ -91,7 +91,8 @@ module "eks" {
       groups   = ["system:masters"]
     },
   ]
-  node_security_group_additional_rules = {
+  /* this rule down below might not be necessary anymore*/
+  /* node_security_group_additional_rules = {
     ingress_allow_access_from_control_plane = {
       type                          = "ingress"
       protocol                      = "tcp"
@@ -100,7 +101,7 @@ module "eks" {
       source_cluster_security_group = true
       description                   = "Allow access from control plane to webhook port of AWS load balancer controller"
     }
-  }
+  } */
   #  self_managed_node_group_defaults = {
   #    instance_type                          = "t3.micro"
   #    update_launch_template_default_version = true
