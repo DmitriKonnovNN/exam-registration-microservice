@@ -1,22 +1,31 @@
 provider "kubernetes" {
 
-  host  = data.aws_eks_cluster.ex-reg-cluster.endpoint
-  token = data.aws_eks_cluster_auth.ex-reg-cluster.token
-  #  exec {
-  #    api_version = "client.authentication.k8s.io/v1beta1"
-  #    args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.ex-reg-cluster.id]
-  #    command     = "aws"
-  #  }
-  cluster_ca_certificate = base64decode(data.aws_eks_cluster.ex-reg-cluster.certificate_authority.0.data)
+  host = data.aws_eks_cluster.default.endpoint
+  /* token = data.aws_eks_cluster_auth.default.token */
+  exec {
+    api_version = "client.authentication.k8s.io/v1beta1"
+    args        = ["eks", "get-token", "--cluster-name", data.aws_eks_cluster.default.id]
+    command     = "aws"
+  }
+  cluster_ca_certificate = base64decode(data.aws_eks_cluster.default.certificate_authority.0.data)
 }
 
-data "aws_eks_cluster" "ex-reg-cluster" {
+data "aws_eks_cluster" "default" {
   #  name = var.cluster_name
   name = module.eks.cluster_name
 }
-data "aws_eks_cluster_auth" "ex-reg-cluster" {
+data "aws_eks_cluster_auth" "default" {
   name = module.eks.cluster_name
 }
+
+
+/* data "aws_eks_cluster" "default" {
+  #  name = var.cluster_name
+  name = module.eks.cluster_id
+}
+data "aws_eks_cluster_auth" "default" {
+  name = module.eks.cluster_id
+} */
 
 module "eks" {
   source                          = "terraform-aws-modules/eks/aws"
@@ -68,7 +77,30 @@ module "eks" {
       capacity_types = "SPOT"
     }
   }
-
+  tags = {
+    owner         = var.owner
+    provisionedBy = var.provisionedBy
+    environment   = "development"
+  }
+  putin_khuylo              = true
+  manage_aws_auth_configmap = true
+  aws_auth_roles = [
+    {
+      rolearn  = module.eks_admins_iam_role.iam_role_arn
+      username = module.eks_admins_iam_role.iam_role_name
+      groups   = ["system:masters"]
+    },
+  ]
+  node_security_group_additional_rules = {
+    ingress_allow_access_from_control_plane = {
+      type                          = "ingress"
+      protocol                      = "tcp"
+      from_port                     = 9443
+      to_port                       = 9443
+      source_cluster_security_group = true
+      description                   = "Allow access from control plane to webhook port of AWS load balancer controller"
+    }
+  }
   #  self_managed_node_group_defaults = {
   #    instance_type                          = "t3.micro"
   #    update_launch_template_default_version = true
@@ -103,14 +135,9 @@ module "eks" {
   #
   #
   #  }
-  tags = {
-    owner         = var.owner
-    provisionedBy = var.provisionedBy
-    environment   = "development"
-  }
-  putin_khuylo = true
+
 }
 output "endpoint" {
-  value = data.aws_eks_cluster.ex-reg-cluster.endpoint
+  value = data.aws_eks_cluster.default.endpoint
 }
 
